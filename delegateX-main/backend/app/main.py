@@ -1,6 +1,12 @@
 import socket
-# Apply Windows DNS resolution fallback patch
+import sys
+# Apply Windows DNS resolution fallback patch.
+# Only needed on Windows, where broken registry nameserver configs make
+# socket.getaddrinfo hang. On Linux (Render) the system resolver is fine, and
+# forcing every lookup through 8.8.8.8 only adds latency and a failure mode.
 try:
+    if not sys.platform.startswith("win"):
+        raise RuntimeError("DNS patch skipped: not running on Windows")
     import dns.resolver
     _original_getaddrinfo = socket.getaddrinfo
     
@@ -123,4 +129,4 @@ async def startup_whatsapp_automation():
 
 @app.get("/")
 def home():
-    return {"message": "Backend Running Successfully"}
+    return {"message": "Backend Running Successfully"}
