@@ -23,7 +23,7 @@ services:
       - key: EMAIL_PASS            # Gmail app password
         sync: false
       - key: FRONTEND_URL
-        value: https://delegatex-frontend.onrender.com
+        value: https://delegatex-frontend.onrender.com   # actual deployed static site
       - key: WHATSAPP_SIMULATION_MODE
         value: "true"
       - key: N8N_WEBHOOK_BASE_URL
@@ -38,7 +38,9 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://delegatex-backend.onrender.com
+        # Render appended -zgv4 because the bare name was taken. Vite bakes this in
+        # at build time, so changing it requires a frontend rebuild, not just a restart.
+        value: https://delegatex-backend-zgv4.onrender.com
     routes:
       # SPA fallback so react-router deep links don't 404
       - type: rewrite
