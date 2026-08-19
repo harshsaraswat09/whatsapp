@@ -8,9 +8,12 @@ dnspython>=2.0.0
 aiosmtplib>=3.0.0
 email-validator>=2.0.0
 python-dotenv>=1.0.0
+requests>=2.31.0   # top-level import in app/chatbot/embeddings.py (was arriving via chromadb)
 fpdf2>=2.7.0
 google-generativeai>=0.8.0
-chromadb>=0.4.0
+# chromadb>=0.4.0   # REMOVED: pulls onnxruntime/tokenizers (~400MB) and blows the
+#                     512MB free tier. vectorstore.py already falls back to a JSON
+#                     flat-file index. Re-enable when moving to a paid instance.
 pypdf>=3.0.0
 python-docx>=0.8.11
 google-genai
